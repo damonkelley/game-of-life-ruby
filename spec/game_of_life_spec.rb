@@ -37,12 +37,13 @@ RSpec.describe Generation do
     end
   end
 
-  context 'when no time is allowed' do
-    it 'will not evolve the world' do
-      coordinate_tracker = TestCoordinateTracker.new
-      constraint = TestConstraint.new(should_continue: [false])
-      rules = TestRules.new
+  let(:coordinate_tracker) { TestCoordinateTracker.new }
+  let(:rules) { TestRules.new }
 
+  context 'when the constraint cannot continue viewing the board' do
+    let(:constraint) { TestConstraint.new(should_continue: [false]) }
+
+    it 'will not evolve the world' do
       new_world = Generation.new(rules: rules, coordinate_tracker: coordinate_tracker)
                             .evolve(World.empty, constraint)
 
@@ -50,12 +51,10 @@ RSpec.describe Generation do
     end
   end
 
-  context 'when there is constraint allowed' do
-    it 'will evolve the world' do
-      coordinate_tracker = TestCoordinateTracker.new
-      rules = TestRules.new
-      constraint = TestConstraint.new(should_continue: [true, true, true, false])
+  context 'when constraint can view the board' do
+    let(:constraint) { TestConstraint.new(should_continue: [true, true, true, false]) }
 
+    it 'will evolve the world' do
       new_world = Generation.new(rules: rules, coordinate_tracker: coordinate_tracker)
                             .evolve(World.empty, constraint)
 
