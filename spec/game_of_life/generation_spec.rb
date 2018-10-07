@@ -22,7 +22,7 @@ RSpec.describe Generation do
       ]
     end
 
-    def neighbors_for(_coordinate)
+    def neighbors_for(_world, _coordinate)
       {}
     end
 
@@ -68,19 +68,3 @@ RSpec.describe Generation do
   end
 end
 
-RSpec.describe World do
-  it 'will place a call at a coordinate' do
-    world = World.empty
-                 .set(Coordinate.new(0, 0), 'contents')
-
-    expect(world.at(Coordinate.new(0, 0))).to eq 'contents'
-  end
-
-  it 'is equal to another world based on its contents' do
-    world = World.empty
-                 .set(Coordinate.new(0, 0), 'contents')
-
-    expect(world).not_to eq World.empty
-    expect(World.empty).to eq World.empty
-  end
-end
